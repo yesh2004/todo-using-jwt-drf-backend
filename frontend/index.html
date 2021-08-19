@@ -4,17 +4,22 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Todo</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<form action="" id='login-form'>
-		<label for="username">Username</label>
-		<input type="text" name='username' id='username'>
-		<label for="Password">password</label>
-		<input type="password" name='Password' id='password'> 
+	<div class="login-div">	
+		<form action="" id='login-form'>
+		
+		<input type="text" name='username' id='username' placeholder="Username">
+		
+		<input type="password" name='Password' id='password' placeholder="password"> 
 		<button type="submit">Login</button>
 	</form>
+	</div>
+
 	<button id='refresh'>Refresh</button>
 	<button id='auth'>Auth test</button>
+	<button id='logout'>Logout</button>
 	<script src='script.js'  type="module"></script>
 </body>
 </html>

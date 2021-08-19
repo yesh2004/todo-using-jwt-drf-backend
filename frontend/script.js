@@ -73,3 +73,19 @@ function test(){
                 }).then(response => console.log(response)).catch(err=>console.log(err))
 
 }
+const logoutBtn=document.getElementById('logout')
+logoutBtn.addEventListener('click',logout)
+function logout(){
+    
+    axios({
+                    method: 'post',
+                    url: 'http://127.0.0.1:8000/logout/',
+                    
+                    
+                    
+                    withCredentials: true
+                    
+                }).then(response => console.log(response)).catch(err=>console.log(err))
+
+}
+

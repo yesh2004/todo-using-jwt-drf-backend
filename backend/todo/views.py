@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer,TodoSerializer
+from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -13,6 +14,10 @@ from .auth import generate_access_token, generate_refresh_token
 from django.views.decorators.csrf import csrf_protect
 import jwt
 from django.conf import settings
+from .models import Todo
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from django.http import Http404
 # Create your views here.
 def index(request):
 	pass
@@ -59,6 +64,11 @@ def refresh_token_view(request):
 	refresh_token=request.COOKIES.get('refreshtoken')
 	if refresh_token is None:
 		raise exceptions.AuthenticationFailed('Authentication credentials were not provided.')
+		response=Response()
+		response.data={
+		"message":"not logged in"
+		}
+		return response
 	try:
 		payload=jwt.decode(refresh_token,settings.SECRET_KEY,algorithms=['HS256'])
 	except jwt.ExpiredSignatureError:
@@ -80,3 +90,61 @@ def auth_test(request):
 	print(request.user)
 
 	return Response({'response':'working'})
+class todo_get(APIView):
+	permission_classes=[IsAuthenticated]
+	def get(self,request, format=None):
+		todos=Todo.objects.filter(user=request.user)
+		serializer=TodoSerializer(todos,many=True)
+		return Response(serializer.data)
+	def post(self,request, format=None):
+		serializer=TodoSerializer(data=request.data)
+
+		
+		if serializer.is_valid():
+			serializer.save(user=self.request.user)
+			print(serializer.data)
+			return Response(serializer.data)
+		else:
+			print(serializer.errors)
+			return Response('Unkown Error occured')
+
+class todo_detail(APIView):
+	permission_classes=[IsAuthenticated]
+	def get_object(self, pk):
+		try:
+			return Todo.objects.get(pk=pk)
+		except Todo.DoesNotExist:
+			raise Http404
+	def get(self,request,pk):
+		todo=self.get_object(pk)
+		serializer=TodoSerializer(todo)
+		return Response(serializer.data)
+	def put(self,request,pk):
+		todo=self.get_object(pk)
+		serializer=TodoSerializer(todo,data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.error,status=status.HTTP_400_BAD_REQUEST)
+	def delete(self,request,pk):
+		todo=self.get_object(pk)
+		todo.delete()
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def logout(request):
+        if request.COOKIES.get('refreshtoken'):
+        	cookie=request.COOKIES.get('refreshtoken')
+        	response=Response()
+        	response.delete_cookie('refreshtoken')
+        	response.delete_cookie('sessionid')
+        	response.delete_cookie('csrftoken')
+        	response.data = {
+            'message': 'Logged out'
+        		}
+        	return response
+        else:
+        	return Response('not logged in')
+        
+        
