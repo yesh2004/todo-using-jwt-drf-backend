@@ -9,26 +9,20 @@
 <body>
 	
 	<section class="todos">
-		<div class="container">
+		<div class="container " id='todos'>
 			
 				<h2>Title</h2>
-			<form action="" id='todo-input'>
-				<input type="text" placeholder="Todo">
+			<form  id='todo-input' >
+				<input type="text" placeholder="Todo" id='todo-title'>
+				<button type="submit" class="btn">Submit</button>
 			</form>
-			<div class="todo">
-				<h4>Todo title</h1>
-			</div>
-			<div class="todo">
-				<h4>Todo title</h1>
-			</div>
-			<div class="todo">
-				<h4>Todo title</h1>
-			</div>
+			
+			
 		</div>
 	</section>
 	<button id='refresh'>Refresh</button>
 	<button id='auth'>Auth test</button>
 	<button id='logout'>Logout</button>
-	
+	<script src='todo.js' type="module"></script>
 </body>
 </html>

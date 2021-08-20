@@ -1,5 +1,7 @@
 
 import axios from 'axios'
+import axiosInstance from './axios.js'
+
 
 const loginForm=document.getElementById('login-form')
 
@@ -9,18 +11,13 @@ loginForm.addEventListener('submit',(e)=>{
 		"username":document.getElementById('username').value,
 		"password":document.getElementById('password').value,
 	}
-	console.log(data)
-	
 
-		axios({
-                    method: 'post',
-                    url: 'http://127.0.0.1:8000/login/',
-                    data:data,
-                    withCredentials: true
-                    
-                }).then(response => {
+
+		axiosInstance
+                .post('login/',data,{headers:{'Authorization':''}},{withCredentials: true})
+                .then(response => {
                 	console.log(response)
-                	
+                	localStorage.setItem('access_token',response.data.access_token)
                 }).catch(err=>console.log(err))
 
 
@@ -31,10 +28,9 @@ const getCsrfToken = () => {
       const csrf = document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)');
       return csrf ? csrf.pop() : '';
     };
- axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+ 
 const token =getCsrfToken()
-let access_token;
+
 function refresh(){
 	
 	axios({
@@ -88,4 +84,5 @@ function logout(){
                 }).then(response => console.log(response)).catch(err=>console.log(err))
 
 }
+
 

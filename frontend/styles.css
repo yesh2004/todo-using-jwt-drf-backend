@@ -3,6 +3,10 @@ body{
 	font-family: sans-serif;
 	background: #145ae3;
 }
+a{
+	text-decoration: none;
+	color: black;
+}
 .login-div{
 	margin-top: 10%;
 
@@ -40,17 +44,42 @@ body{
 }
 .todos .container{
 	margin: 0 auto;
-	height: 100vh;
+	height: auto;
 	border-radius:5% ;
 	background: #f0f5ff;
 	width: 50%;
 }
+.todos .container h2{
+	padding-top: .4em;
+}
 #todo-input input{
 	width: 70%;
 	padding: 1.2em;
+	border: none;
 }
 .todo{
 	margin: 1.5em;
 	padding: 1em;
 	background: #fff;
+	display: flex;
+	justify-content: space-between;
+}
+.todo input[type='checkbox']{
+	margin-top: 1.2em;
+	width: 2em;
+
+}
+.remove-btn{
+	padding: 1em;
+	color: #fff;
+	background: #f24444;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.btn{
+	padding: 1em;
+	background: gold;
+	border: none;
+	border-radius: 10px;
 }
