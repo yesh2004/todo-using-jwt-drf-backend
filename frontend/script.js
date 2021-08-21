@@ -18,12 +18,13 @@ loginForm.addEventListener('submit',(e)=>{
                 .then(response => {
                 	console.log(response)
                 	localStorage.setItem('access_token',response.data.access_token)
+                    localStorage.setItem('isAuth',true)
+                    window.location='/todo.html'
                 }).catch(err=>console.log(err))
 
 
 })
-const refre=document.getElementById('refresh')
-refre.addEventListener('click',refresh)
+
 const getCsrfToken = () => {
       const csrf = document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)');
       return csrf ? csrf.pop() : '';
@@ -31,58 +32,8 @@ const getCsrfToken = () => {
  
 const token =getCsrfToken()
 
-function refresh(){
-	
-	axios({
-                    method: 'post',
-                    url: 'http://127.0.0.1:8000/refresh/',
-                    xstfCookieName: 'csrftoken',
-                    xsrfHeaderName: 'X-CSRFToken',
-                    
-                    headers: {
-                        'X-CSRFToken': token,
-                    },
-                    withCredentials: true
-                    
-                }).then(response => {
-                	console.log(response)
-                	access_token=response.data.access_token
-                }).catch(err=>console.log(err))
 
-}
-const auth_test=document.getElementById('auth')
-auth_test.addEventListener('click',test)
-function test(){
-	
-	axios({
-                    method: 'get',
-                    url: 'http://127.0.0.1:8000/auth_test/',
-                    xstfCookieName: 'csrftoken',
-                    xsrfHeaderName: 'X-CSRFToken',
-                    
-                    headers: {
-                        'X-CSRFToken': token,
-                        'Authorization':'Token'+' '+access_token
-                    },
-                    withCredentials: true
-                    
-                }).then(response => console.log(response)).catch(err=>console.log(err))
 
-}
-const logoutBtn=document.getElementById('logout')
-logoutBtn.addEventListener('click',logout)
-function logout(){
-    
-    axios({
-                    method: 'post',
-                    url: 'http://127.0.0.1:8000/logout/',
-                    
-                    
-                    
-                    withCredentials: true
-                    
-                }).then(response => console.log(response)).catch(err=>console.log(err))
 
-}
 
 

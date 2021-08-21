@@ -33,10 +33,27 @@ a{
 	transition: .5s;
 	border-radius: 10px;
 }
+
 .login-div button[type='submit']:hover{
 	background: #f0f5ff;
 	color: #4281ff;
 	border: .5px solid #4281ff;
+}
+#logout{
+	padding: .5em;
+	text-align: center;
+	background: #4281ff;
+	color: #f0f5ff;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+	width: 10%;
+	transition: .5s;
+	border-radius: 10px;
+	position: absolute;
+	top: 10px;
+
+	right: 10px;
 }
 .todos{
 	
